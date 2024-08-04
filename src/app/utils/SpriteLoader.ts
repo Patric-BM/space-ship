@@ -1,4 +1,5 @@
 export class SpriteLoader {
+
   public static loadImage(src: string): Promise<HTMLImageElement> {
     const sprite = new Promise((resolve, reject) => {
       const image = new Image();
@@ -7,5 +8,10 @@ export class SpriteLoader {
       image.src = src;
     });
     return sprite as Promise<HTMLImageElement>;
+  }
+
+  public static loadImages(srcs: string[]): Promise<HTMLImageElement[]> {
+    const sprites = srcs.map(src => SpriteLoader.loadImage(src));
+    return Promise.all(sprites);
   }
 }
