@@ -1,0 +1,36 @@
+
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Next.js: Full",
+      "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
+      "args": ["dev"],
+      "cwd": "${workspaceFolder}",
+      "protocol": "inspector",
+      "runtimeExecutable": "node",
+      "console": "externalTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "outputCapture": "std",
+      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "serverReadyAction": {
+        "pattern": "started server on .*?\\:\\d{4}",
+        "action": "openExternally",
+        "uriFormat": "http://localhost:3000"
+      }
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Next.js: Attach to Process",
+      "port": 9229,
+      "restart": true,
+      "skipFiles": ["<node_internals>/**", "node_modules/**"]
+    }
+  ]
+}
