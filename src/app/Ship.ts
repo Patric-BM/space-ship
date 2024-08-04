@@ -5,28 +5,34 @@ export class Ship {
   velocity: Vector2;
   width: number;
   height: number;
-  gravity: number;
   context: CanvasRenderingContext2D;
   sprite: HTMLImageElement;
   frameIndex: number;
   frameWidth: number;
   frameHeight: number;
+  totalFrames: number;
+  frameCounter: number;
+  frameRate: number;
 
   constructor(context: CanvasRenderingContext2D, sprite: HTMLImageElement) {
-    this.position = new Vector2(0, 0);
-    this.velocity = new Vector2(0, 0);
-    this.width = 50;
-    this.height = 50;
-    this.gravity = 0.5;
     this.context = context;
-    this.sprite = new Image();
-    this.sprite.src = sprite.src;
+    this.position = new Vector2(
+      context.canvas.width / 2,
+      context.canvas.height - 50
+    );
+    this.velocity = new Vector2(0, 0);
+    this.width = 100;
+    this.height = 130;
+    this.sprite = sprite;
     this.frameIndex = 0;
-    this.frameWidth = 50;
-    this.frameHeight = 50;
+    this.frameWidth = 300 / 3;
+    this.frameHeight = 148;
+    this.totalFrames = 3;
+    this.frameCounter = 0;
+    this.frameRate = 10;
   }
 
-  public draw(): void {
+  private draw(): void {
     this.context.drawImage(
       this.sprite,
       this.frameIndex * this.frameWidth,
@@ -38,5 +44,22 @@ export class Ship {
       this.width,
       this.height
     );
+  }
+
+  public update(): void {
+    this.position.y += this.velocity.y;
+    if (this.position.y > this.context.canvas.height - this.height) {
+      this.velocity.y = 0;
+      this.position.y = this.context.canvas.height - this.height;
+    }
+
+    this.frameCounter++;
+    if (this.frameCounter >= this.frameRate) {
+      this.frameIndex++;
+      this.frameIndex %= this.totalFrames;
+      this.frameCounter = 0;
+    }
+
+    this.draw();
   }
 }
