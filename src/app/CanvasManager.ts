@@ -13,7 +13,7 @@ export class CanvasManager {
   }
 
   public async init(): Promise<void> {
-    const shipSprite = await SpriteLoader.loadImage("/ship.png");
+    const shipSprite = await SpriteLoader.loadImage("/spaceship.png");
     this.ship = new Ship(this.context, shipSprite);
     this.gameLoop();
   }
