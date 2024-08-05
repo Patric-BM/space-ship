@@ -1,6 +1,7 @@
 import { Asteroid } from "./Asteroid";
 import { Background } from "./Background";
 import { Ship } from "./Ship";
+import { GameController } from "./utils/GameController";
 import { SpriteLoader } from "./utils/SpriteLoader";
 
 export class CanvasManager {
@@ -9,6 +10,7 @@ export class CanvasManager {
   ship: Ship | null;
   background: Background | null;
   asteroids: Asteroid[] | null;
+  gameController: GameController | null;
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
@@ -16,6 +18,7 @@ export class CanvasManager {
     this.ship = null;
     this.background = null;
     this.asteroids = null;
+    this.gameController = null;
   }
 
   public async init(): Promise<void> {
@@ -34,6 +37,7 @@ export class CanvasManager {
     this.asteroids = Array.from({ length: Math.random() * 5 + 3 }, () => {
       return new Asteroid(this.context, asteroidSprites);
     });
+    this.gameController = new GameController(this.ship);
     this.gameLoop();
   }
 
@@ -45,6 +49,7 @@ export class CanvasManager {
 
   private gameLoop(): void {
     this.draw();
+    this.gameController?.update();
     requestAnimationFrame(() => this.gameLoop());
   }
 }
