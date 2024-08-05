@@ -1,7 +1,7 @@
-import { Vector2 } from "./Vector2";
+import { Vector2 } from "@/app/utils/Vector2";
 
 export class CollisionManager {
-    
+
     public static checkCollision(
         object1: { position: Vector2; width: number; height: number },
         object2: { position: Vector2; width: number; height: number }

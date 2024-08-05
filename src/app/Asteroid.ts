@@ -1,4 +1,4 @@
-import { Vector2 } from "./Vector2";
+import { Vector2 } from "@/app/utils/Vector2";
 
 export class Asteroid {
   context: CanvasRenderingContext2D;
