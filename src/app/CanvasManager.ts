@@ -17,7 +17,7 @@ export class CanvasManager {
     this.context = canvas.getContext("2d")!;
     this.ship = null;
     this.background = null;
-    this.asteroids = null;
+    this.asteroids = [];
     this.gameController = null;
   }
 
@@ -26,18 +26,12 @@ export class CanvasManager {
     const backgroundSprite = await SpriteLoader.loadImage(
       "/background_purple_space.png"
     );
-    const asteroidSprites = await SpriteLoader.loadImages([
-      "/asteroid-0.png",
-      "/asteroid-1.png",
-      "/asteroid-2.png",
-      "/asteroid-3.png",
-    ]);
+ 
     this.ship = new Ship(this.context, shipSprite);
     this.background = new Background(this.context, backgroundSprite);
-    this.asteroids = Array.from({ length: Math.random() * 5 + 3 }, () => {
-      return new Asteroid(this.context, asteroidSprites);
-    });
+ 
     this.gameController = new GameController(this.ship);
+    this.generateAsteroids();
     this.gameLoop();
   }
 
@@ -51,5 +45,38 @@ export class CanvasManager {
     this.draw();
     this.gameController?.update();
     requestAnimationFrame(() => this.gameLoop());
+
+    this.removeAsteroids();
+
+    console.log(this.asteroids);
+  }
+
+  private asteroidOffScreen(asteroid: Asteroid): boolean {
+    return (
+      asteroid.position.y > this.context.canvas.height ||
+      asteroid.position.x < 0 ||
+      asteroid.position.x > this.context.canvas.width
+    );
+  }
+
+  private removeAsteroids(): void {
+    this.asteroids?.forEach((asteroid) => {
+      const index = this.asteroids?.indexOf(asteroid);
+      if (this.asteroidOffScreen(asteroid)) {
+        this.asteroids?.splice(index!, 1);
+      }
+    });
+  }
+
+  private async generateAsteroids(): Promise<void> {
+    const asteroidSprites = await SpriteLoader.loadImages([
+      "/asteroid-0.png",
+      "/asteroid-1.png",
+      "/asteroid-2.png",
+      "/asteroid-3.png",
+    ]);
+    setInterval(() => {
+      this.asteroids?.push(new Asteroid(this.context, asteroidSprites));
+    }, 2000); 
   }
 }

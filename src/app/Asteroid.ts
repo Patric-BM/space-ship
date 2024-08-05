@@ -45,10 +45,10 @@ export class Asteroid {
   public update(): void {
     this.position.y += this.velocity.y;
     this.rotation += this.rotationSpeed;
-    if (this.position.y > this.context.canvas.height + this.height) {
+/*     if (this.position.y > this.context.canvas.height + this.height) {
       this.position.y = -this.height;
       this.position.x = Math.random() * this.context.canvas.width;
-    }
+    } */
     this.draw();
   }
 }

@@ -65,4 +65,26 @@ export class GameController {
       }
     }
   }
+
+  public vibrateGamepad(duration: number, intensity: number): void {
+    if (this.gamepadIndex !== null) {
+      const gamepad = navigator.getGamepads()[this.gamepadIndex];
+      if (gamepad) {
+        gamepad.vibrationActuator?.playEffect("dual-rumble", {
+          duration,
+          strongMagnitude: intensity,
+          weakMagnitude: intensity,
+        });
+      }
+    }
+  }
+
+  public stopVibratingGamepad(): void {
+    if (this.gamepadIndex !== null) {
+      const gamepad = navigator.getGamepads()[this.gamepadIndex];
+      if (gamepad) {
+        gamepad.vibrationActuator?.reset();
+      }
+    }
+  }
 }
